@@ -193,7 +193,14 @@ class _BluetoothAppState extends State<BluetoothApp> {
                   valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
                 ),
               ),
-
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Text(
+                  "PAIRED DEVICES",
+                  style: TextStyle(fontSize: 24, color: Colors.blue),
+                  textAlign: TextAlign.center,
+                ),
+              ),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -214,7 +221,55 @@ class _BluetoothAppState extends State<BluetoothApp> {
                   ),
                 ),
               ),
-
+              // Padding(
+              //   padding: const EdgeInsets.all(16.0),
+              //   child: Card(
+              //     shape: RoundedRectangleBorder(
+              //       side: BorderSide(
+              //         color: _deviceState == 0
+              //             ? Colors.transparent
+              //             : _deviceState == 1
+              //             ? Colors.green
+              //             : Colors.red,
+              //         width: 3,
+              //       ),
+              //       borderRadius: BorderRadius.circular(4.0),
+              //     ),
+              //     elevation: _deviceState == 0 ? 4 : 0,
+              //     child: Padding(
+              //       padding: const EdgeInsets.all(8.0),
+              //       child: Row(
+              //         children: <Widget>[
+              //           Expanded(
+              //             child: Text(
+              //               "DEVICE 1",
+              //               style: TextStyle(
+              //                 fontSize: 20,
+              //                 color: _deviceState == 0
+              //                     ? colors['neutralTextColor']
+              //                     : _deviceState == 1
+              //                     ? colors['onTextColor']
+              //                     : colors['offTextColor'],
+              //               ),
+              //             ),
+              //           ),
+              //           ElevatedButton(
+              //             onPressed: _connected
+              //                 ? _sendOnMessageToBluetooth
+              //                 : null,
+              //             child: Text("ON"),
+              //           ),
+              //           ElevatedButton(
+              //             onPressed: _connected
+              //                 ? _sendOffMessageToBluetooth
+              //                 : null,
+              //             child: Text("OFF"),
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //   ),
+              // ),
               Container(
                 color: Colors.blue,
               ),
