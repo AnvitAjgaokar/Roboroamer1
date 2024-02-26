@@ -1,15 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
-
-
 import 'package:flutter/services.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
-
 import 'control_page.dart';
-
-
 
 class BluetoothApp extends StatefulWidget {
 
@@ -31,14 +25,7 @@ class _BluetoothAppState extends State<BluetoothApp> {
 
   bool isDisconnecting = false;
 
-  Map<String, Color> colors = {
-    'onBorderColor': Colors.green,
-    'offBorderColor': Colors.red,
-    'neutralBorderColor': Colors.transparent,
-    'onTextColor': Colors.green.shade700,
-    'offTextColor': Colors.red.shade700,
-    'neutralTextColor': Colors.blue,
-  };
+
 
 // To track whether the device is still connected to Bluetooth
   bool get isConnected => connection != null && connection!.isConnected;
@@ -142,137 +129,54 @@ class _BluetoothAppState extends State<BluetoothApp> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         key: _scaffoldKey,
-//         appBar:AppBar(
-//           title: const Text("Flutter Bluetooth"),
-//           backgroundColor: Colors.deepPurple,
-// //           actions: <Widget>[
-// //             ElevatedButton.icon(
-// //               icon: const Icon(
-// //                 Icons.refresh,
-// //                 color: Colors.white,
-// //               ),
-// //               label: const Text(
-// //                 "Refresh",
-// //                 style: TextStyle(
-// //                   color: Colors.white,
-// //                 ),
-// //               ),
-// //               style: ElevatedButton.styleFrom(
-// //                 shape: RoundedRectangleBorder(
-// //                   borderRadius: BorderRadius.circular(30),
-// //                 ),
-// //                 primary: Colors.deepPurple,
-// //               ),
-// //               onPressed: () async {
-// // // So, that when new devices are paired
-// // // while the app is running, user can refresh
-// // // the paired devices list.
-// //                 await getPairedDevices().then((_) {
-// //                   show('Device list refreshed');
-// //                 });
-// //               },
-// //             ),
-// //           ],
-//         ),
         body: Container(
           decoration: const BoxDecoration(
               gradient: LinearGradient(
-                  colors: [Color(0xFF09102D), Color(0xFF333C73)],
+                  colors: [Color(0xFF070F2B), Color(0xFF1B1A55),Color(0xFF535C91)],
                   begin: FractionalOffset.topCenter,
                   end: FractionalOffset.bottomCenter,
-                  stops: [0.0, 1.0],
+                  stops: [0.0, 0.5,1.0],
                   tileMode: TileMode.clamp)),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              Visibility(
-                visible: _isButtonUnavailable &&
-                    _bluetoothState == BluetoothState.STATE_ON,
-                child: LinearProgressIndicator(
-                  backgroundColor: Colors.yellow,
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10),
-                child: Text(
-                  "PAIRED DEVICES",
-                  style: TextStyle(fontSize: 24, color: Colors.blue),
-                  textAlign: TextAlign.center,
-                ),
-              ),
+
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: // Inside the Stack where the DropdownButton was previously used
-                  ListView.builder(
+                  padding: const EdgeInsets.all(15.0),
+                  child: ListView.builder(
                     itemCount: _devicesList.length,
                     itemBuilder: (context, index) {
                       BluetoothDevice device = _devicesList[index];
 
-                      return ListTile(
-                        title: Text(device.name.toString()),
-                        subtitle: Text(device.address),
-                        onTap: () => _isButtonUnavailable ? null : _connectToDevice(device),
-
-
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Card(
+                          elevation: 8, // Adjust elevation as needed
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40), // Rounded corners
+                          ),
+                          color: Colors.white, // Tile color
+                          child: ListTile(
+                            title: Text(
+                              device.name.toString(),
+                              style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),
+                            ),
+                            subtitle: Text(
+                              device.address,
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            onTap: () => _isButtonUnavailable ? null : _showConnectDialog(device),
+                          ),
+                        ),
                       );
                     },
                   ),
                 ),
               ),
-              // Padding(
-              //   padding: const EdgeInsets.all(16.0),
-              //   child: Card(
-              //     shape: RoundedRectangleBorder(
-              //       side: BorderSide(
-              //         color: _deviceState == 0
-              //             ? Colors.transparent
-              //             : _deviceState == 1
-              //             ? Colors.green
-              //             : Colors.red,
-              //         width: 3,
-              //       ),
-              //       borderRadius: BorderRadius.circular(4.0),
-              //     ),
-              //     elevation: _deviceState == 0 ? 4 : 0,
-              //     child: Padding(
-              //       padding: const EdgeInsets.all(8.0),
-              //       child: Row(
-              //         children: <Widget>[
-              //           Expanded(
-              //             child: Text(
-              //               "DEVICE 1",
-              //               style: TextStyle(
-              //                 fontSize: 20,
-              //                 color: _deviceState == 0
-              //                     ? colors['neutralTextColor']
-              //                     : _deviceState == 1
-              //                     ? colors['onTextColor']
-              //                     : colors['offTextColor'],
-              //               ),
-              //             ),
-              //           ),
-              //           ElevatedButton(
-              //             onPressed: _connected
-              //                 ? _sendOnMessageToBluetooth
-              //                 : null,
-              //             child: Text("ON"),
-              //           ),
-              //           ElevatedButton(
-              //             onPressed: _connected
-              //                 ? _sendOffMessageToBluetooth
-              //                 : null,
-              //             child: Text("OFF"),
-              //           ),
-              //         ],
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              Container(
-                color: Colors.blue,
-              ),
+
+
+
 
             ],
           ),
@@ -281,98 +185,7 @@ class _BluetoothAppState extends State<BluetoothApp> {
     );
   }
 
-// Create the List of devices to be shown in Dropdown Menu
-//   List<DropdownMenuItem<BluetoothDevice>> _getDeviceItems() {
-//     List<DropdownMenuItem<BluetoothDevice>> items = [];
-//     if (_devicesList.isEmpty) {
-//       items.add(DropdownMenuItem(
-//         child: Text('NONE'),
-//       ));
-//     } else {
-//       _devicesList.forEach((device) {
-//         items.add(DropdownMenuItem(
-//           value: device,
-//           child: Text(device.name.toString()),
-//         ));
-//       });
-//     }
-//     return items;
-//   }
 
-  // void _connectToDevice(BluetoothDevice device) async {
-  //   setState(() {
-  //     _isButtonUnavailable = true;
-  //   });
-  //
-  //   if (!isConnected) {
-  //     await BluetoothConnection.toAddress(device.address)
-  //         .then((_connection) {
-  //       print('Connected to ${device.name}');
-  //       connection = _connection;
-  //       setState(() {
-  //         _connected = true;
-  //
-  //       });
-  //
-  //       connection?.input?.listen(null).onDone(() {
-  //         if (isDisconnecting) {
-  //           print('Disconnecting locally!');
-  //         } else {
-  //           print('Disconnected remotely!');
-  //         }
-  //         if (this.mounted) {
-  //           setState(() {});
-  //         }
-  //       });
-  //     }).catchError((error) {
-  //       print('Cannot connect, exception occurred');
-  //       print(error);
-  //     });
-  //
-  //     show('Connected to ${device.name}');
-  //
-  //     setState(() => _isButtonUnavailable = false);
-  //   }
-  // }
-
-  // void _connectToDevice(BluetoothDevice device) async {
-  //   setState(() {
-  //     _isButtonUnavailable = true;
-  //   });
-  //
-  //   if (!isConnected) {
-  //     await BluetoothConnection.toAddress(device.address)
-  //         .then((_connection) {
-  //       print('Connected to ${device.name}');
-  //       connection = _connection;
-  //       setState(() {
-  //         _connected = true;
-  //       });
-  //
-  //       connection?.input?.listen(null).onDone(() {
-  //         if (isDisconnecting) {
-  //           print('Disconnecting locally!');
-  //         } else {
-  //           print('Disconnected remotely!');
-  //         }
-  //         if (this.mounted) {
-  //           setState(() {});
-  //         }
-  //       });
-  //
-  //       // Navigate to the control page
-  //
-  //
-  //     }).catchError((error) {
-  //       print('Cannot connect, exception occurred');
-  //       print(error);
-  //     });
-  //
-  //     show('Connected to ${device.name}');
-  //
-  //     setState(() => _isButtonUnavailable = false);
-  //   }
-  // }
 
   void _connectToDevice(BluetoothDevice device) async {
     setState(() {
@@ -544,6 +357,41 @@ class _BluetoothAppState extends State<BluetoothApp> {
     );
 
   }
-}
 
+  void _showConnectDialog(BluetoothDevice device) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white.withOpacity(0.9), // Transparent background color
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          title: Text("Connecting to ${device.name}"),
+          content: SizedBox(
+            width: 80, // Adjust the width to make it smaller
+            height: 80, // Adjust the height to make it smaller
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(height: 16),
+                Text(device.name.toString()),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            Center(
+              child: ElevatedButton(
+                child: Text("Cancel"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ),
+          ],
+        );
+      },
+    );
+    _connectToDevice(device);
+  }
+}
 
