@@ -133,6 +133,7 @@ class _BluetoothAppState extends State<BluetoothApp> {
         body: Stack(
           alignment: Alignment.center,
           children: <Widget>[
+
             Container(
               decoration: const BoxDecoration(
                   gradient: LinearGradient(
@@ -142,6 +143,8 @@ class _BluetoothAppState extends State<BluetoothApp> {
                       stops: [0.0, 0.5,1.0],
                       tileMode: TileMode.clamp)),
             ),
+
+
 
             Container(
               decoration: BoxDecoration(
@@ -164,6 +167,7 @@ class _BluetoothAppState extends State<BluetoothApp> {
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
+                        fontFamily: 'Aldrich'
                       ),
                     ),
                     // const SizedBox(height: 5), // Adjust spacing between text and list
@@ -176,7 +180,8 @@ class _BluetoothAppState extends State<BluetoothApp> {
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 5.0),
                             child: Card(
-                              elevation: 10, // Adjust elevation as needed
+                              elevation: 20,
+                              shadowColor: Colors.black,// Adjust elevation as needed
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(40), // Rounded corners
                               ),
@@ -184,11 +189,11 @@ class _BluetoothAppState extends State<BluetoothApp> {
                               child: ListTile(
                                 title: Text(
                                   device.name.toString(),
-                                  style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                                  style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold,fontSize: 20,fontFamily: 'Aldrich'),
                                 ),
                                 subtitle: Text(
                                   device.address,
-                                  style: TextStyle(color: Colors.black),
+                                  style: TextStyle(color: Colors.black,fontFamily: 'Aldrich'),
                                 ),
                                 onTap: () => _isButtonUnavailable ? null : _showConnectDialog(device),
                               ),
@@ -217,74 +222,7 @@ class _BluetoothAppState extends State<BluetoothApp> {
 
           ],
         ),
-        // body: Container(
-        //   decoration: const BoxDecoration(
-        //       gradient: LinearGradient(
-        //           colors: [Color(0xFF070F2B), Color(0xFF1B1A55),Color(0xFF535C91)],
-        //           begin: FractionalOffset.topCenter,
-        //           end: FractionalOffset.bottomCenter,
-        //           stops: [0.0, 0.5,1.0],
-        //           tileMode: TileMode.clamp)),
-        //   child: Stack(
-        //     alignment: Alignment.center,
-        //     children: <Widget>[
-        //
-        //       Container(
-        //         width:300 ,
-        //         height: 500,
-        //         color: Colors.white54.withOpacity(1.0),
-        //       ),
-        //       Padding(
-        //         padding: const EdgeInsets.all(15.0),
-        //         child: Column(
-        //           mainAxisAlignment: MainAxisAlignment.center,
-        //           children: [
-        //             SizedBox(height: 20,),
-        //             Text(
-        //               "Connected Devices",
-        //               style: TextStyle(
-        //                 fontSize: 24,
-        //                 fontWeight: FontWeight.bold,
-        //                 color: Colors.white,
-        //               ),
-        //             ),
-        //             // const SizedBox(height: 5), // Adjust spacing between text and list
-        //             Expanded(
-        //               child: ListView.builder(
-        //                 itemCount: _devicesList.length,
-        //                 itemBuilder: (context, index) {
-        //                   BluetoothDevice device = _devicesList[index];
-        //
-        //                   return Padding(
-        //                     padding: const EdgeInsets.symmetric(vertical: 8.0),
-        //                     child: Card(
-        //                       elevation: 8, // Adjust elevation as needed
-        //                       shape: RoundedRectangleBorder(
-        //                         borderRadius: BorderRadius.circular(40), // Rounded corners
-        //                       ),
-        //                       color: Colors.white, // Tile color
-        //                       child: ListTile(
-        //                         title: Text(
-        //                           device.name.toString(),
-        //                           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-        //                         ),
-        //                         subtitle: Text(
-        //                           device.address,
-        //                           style: TextStyle(color: Colors.black),
-        //                         ),
-        //                         onTap: () => _isButtonUnavailable ? null : _showConnectDialog(device),
-        //                       ),
-        //                     ),
-        //                   );
-        //                 },
-        //               ),
-        //             ),
-        //           ],
-        //         ),
-        //       )
-        //     ],
-        //   ),
-        // ),
+
       ),
     );
   }
@@ -467,31 +405,24 @@ class _BluetoothAppState extends State<BluetoothApp> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Colors.white38.withOpacity(0.9), // Transparent background color
+          backgroundColor: Colors.white, // Transparent background color
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          title: Text("Connecting to ${device.name}"),
           content: SizedBox(
-            width: 80, // Adjust the width to make it smaller
-            height: 80, // Adjust the height to make it smaller
+            width: 50, // Adjust the width to make it smaller
+            height: 75, // Adjust the height to make it smaller
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                CircularProgressIndicator(),
+                CircularProgressIndicator(
+                  // color: Color.fromRGBO(7, 15, 43, 0),
+                  color: Colors.blue.shade700,
+                ),
                 SizedBox(height: 16),
-                Text(device.name.toString()),
+                Text('Connecting to: ${device.name}'),
               ],
             ),
           ),
-          actions: <Widget>[
-            Center(
-              child: ElevatedButton(
-                child: Text("Cancel"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ),
-          ],
+
         );
       },
     );

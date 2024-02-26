@@ -1,5 +1,3 @@
-
-import 'package:arduinocar1/bluemainback.dart';
 import 'package:flutter/material.dart';
 
 import 'package:arduinocar1/bluemain.dart';
