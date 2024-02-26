@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
@@ -129,58 +130,142 @@ class _BluetoothAppState extends State<BluetoothApp> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         key: _scaffoldKey,
-        body: Container(
-          decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                  colors: [Color(0xFF070F2B), Color(0xFF1B1A55),Color(0xFF535C91)],
-                  begin: FractionalOffset.topCenter,
-                  end: FractionalOffset.bottomCenter,
-                  stops: [0.0, 0.5,1.0],
-                  tileMode: TileMode.clamp)),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
+        body: Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            Container(
+              decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                      colors: [Color(0xFF070F2B), Color(0xFF1B1A55),Color(0xFF535C91)],
+                      begin: FractionalOffset.topCenter,
+                      end: FractionalOffset.bottomCenter,
+                      stops: [0.0, 0.5,1.0],
+                      tileMode: TileMode.clamp)),
+            ),
 
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: ListView.builder(
-                    itemCount: _devicesList.length,
-                    itemBuilder: (context, index) {
-                      BluetoothDevice device = _devicesList[index];
-
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Card(
-                          elevation: 8, // Adjust elevation as needed
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40), // Rounded corners
-                          ),
-                          color: Colors.white, // Tile color
-                          child: ListTile(
-                            title: Text(
-                              device.name.toString(),
-                              style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),
-                            ),
-                            subtitle: Text(
-                              device.address,
-                              style: TextStyle(color: Colors.black),
-                            ),
-                            onTap: () => _isButtonUnavailable ? null : _showConnectDialog(device),
-                          ),
-                        ),
-                      );
-                    },
+            Container(
+              color: Colors.white12,
+              width: 300,
+              height: 500,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(height: 20,),
+                  Text(
+                    "Connected Devices",
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
+                  // const SizedBox(height: 5), // Adjust spacing between text and list
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: _devicesList.length,
+                      itemBuilder: (context, index) {
+                        BluetoothDevice device = _devicesList[index];
+
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Card(
+                            elevation: 8, // Adjust elevation as needed
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40), // Rounded corners
+                            ),
+                            color: Colors.white, // Tile color
+                            child: ListTile(
+                              title: Text(
+                                device.name.toString(),
+                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                              ),
+                              subtitle: Text(
+                                device.address,
+                                style: TextStyle(color: Colors.black),
+                              ),
+                              onTap: () => _isButtonUnavailable ? null : _showConnectDialog(device),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
-
-
-
-
-            ],
-          ),
+            )
+          ],
         ),
+        // body: Container(
+        //   decoration: const BoxDecoration(
+        //       gradient: LinearGradient(
+        //           colors: [Color(0xFF070F2B), Color(0xFF1B1A55),Color(0xFF535C91)],
+        //           begin: FractionalOffset.topCenter,
+        //           end: FractionalOffset.bottomCenter,
+        //           stops: [0.0, 0.5,1.0],
+        //           tileMode: TileMode.clamp)),
+        //   child: Stack(
+        //     alignment: Alignment.center,
+        //     children: <Widget>[
+        //
+        //       Container(
+        //         width:300 ,
+        //         height: 500,
+        //         color: Colors.white54.withOpacity(1.0),
+        //       ),
+        //       Padding(
+        //         padding: const EdgeInsets.all(15.0),
+        //         child: Column(
+        //           mainAxisAlignment: MainAxisAlignment.center,
+        //           children: [
+        //             SizedBox(height: 20,),
+        //             Text(
+        //               "Connected Devices",
+        //               style: TextStyle(
+        //                 fontSize: 24,
+        //                 fontWeight: FontWeight.bold,
+        //                 color: Colors.white,
+        //               ),
+        //             ),
+        //             // const SizedBox(height: 5), // Adjust spacing between text and list
+        //             Expanded(
+        //               child: ListView.builder(
+        //                 itemCount: _devicesList.length,
+        //                 itemBuilder: (context, index) {
+        //                   BluetoothDevice device = _devicesList[index];
+        //
+        //                   return Padding(
+        //                     padding: const EdgeInsets.symmetric(vertical: 8.0),
+        //                     child: Card(
+        //                       elevation: 8, // Adjust elevation as needed
+        //                       shape: RoundedRectangleBorder(
+        //                         borderRadius: BorderRadius.circular(40), // Rounded corners
+        //                       ),
+        //                       color: Colors.white, // Tile color
+        //                       child: ListTile(
+        //                         title: Text(
+        //                           device.name.toString(),
+        //                           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        //                         ),
+        //                         subtitle: Text(
+        //                           device.address,
+        //                           style: TextStyle(color: Colors.black),
+        //                         ),
+        //                         onTap: () => _isButtonUnavailable ? null : _showConnectDialog(device),
+        //                       ),
+        //                     ),
+        //                   );
+        //                 },
+        //               ),
+        //             ),
+        //           ],
+        //         ),
+        //       )
+        //     ],
+        //   ),
+        // ),
       ),
     );
   }
@@ -363,7 +448,7 @@ class _BluetoothAppState extends State<BluetoothApp> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Colors.white.withOpacity(0.9), // Transparent background color
+          backgroundColor: Colors.white38.withOpacity(0.9), // Transparent background color
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           title: Text("Connecting to ${device.name}"),
           content: SizedBox(
