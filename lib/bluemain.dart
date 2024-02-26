@@ -144,58 +144,77 @@ class _BluetoothAppState extends State<BluetoothApp> {
             ),
 
             Container(
-              color: Colors.white12,
-              width: 300,
-              height: 500,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(height: 20,),
-                  Text(
-                    "Connected Devices",
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  // const SizedBox(height: 5), // Adjust spacing between text and list
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: _devicesList.length,
-                      itemBuilder: (context, index) {
-                        BluetoothDevice device = _devicesList[index];
+              decoration: BoxDecoration(
+                color: Colors.white12,
+                borderRadius: BorderRadius.circular(15), // Rounded corners
+                border: Border.all(color: Colors.white54, width: 3), // White border
+              ),
+              width: 330,
+              height: 650,
 
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: Card(
-                            elevation: 8, // Adjust elevation as needed
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(40), // Rounded corners
-                            ),
-                            color: Colors.white, // Tile color
-                            child: ListTile(
-                              title: Text(
-                                device.name.toString(),
-                                style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-                              ),
-                              subtitle: Text(
-                                device.address,
-                                style: TextStyle(color: Colors.black),
-                              ),
-                              onTap: () => _isButtonUnavailable ? null : _showConnectDialog(device),
-                            ),
-                          ),
-                        );
-                      },
+              child:  Padding(
+                padding: EdgeInsets.only(left: 5,right: 5),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 20,),
+                    Text(
+                      "Paired Devices",
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                ],
+                    // const SizedBox(height: 5), // Adjust spacing between text and list
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: _devicesList.length,
+                        itemBuilder: (context, index) {
+                          BluetoothDevice device = _devicesList[index];
+
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5.0),
+                            child: Card(
+                              elevation: 10, // Adjust elevation as needed
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(40), // Rounded corners
+                              ),
+                              color: Colors.white, // Tile color
+                              child: ListTile(
+                                title: Text(
+                                  device.name.toString(),
+                                  style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                                ),
+                                subtitle: Text(
+                                  device.address,
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                                onTap: () => _isButtonUnavailable ? null : _showConnectDialog(device),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            Padding(
+              padding: EdgeInsets.only(top:490, right: 173),
+              child: Transform.scale(
+                scale: 1.5, // Adjust the scale factor as needed
+                child: Image.asset(
+                  "assets/images/black_car.png",
+                  height: 180, // Adjust the height if necessary
+                ),
               ),
             )
+
+
+
           ],
         ),
         // body: Container(
